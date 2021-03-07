@@ -1,0 +1,4 @@
+#Sun Mar 07 09:52:42 CST 2021
+base.0=/Users/chao.wang1/code/flutter/plugins/AppAnalytics_SDK_Flutter/AppAnalytics_SDK_Flutter/example/build/app/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex
