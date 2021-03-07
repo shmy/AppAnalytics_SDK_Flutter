@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:io';
 
@@ -11,7 +10,7 @@ class TalkingDataAppAnalytics {
     return await _channel.invokeMethod('getDeviceID');
   }
 
-  static Future<String> getOAID() async{
+  static Future<String?> getOAID() async{
     if(Platform.isAndroid){
       return await _channel.invokeMethod('getOAID');
     }
@@ -30,7 +29,7 @@ class TalkingDataAppAnalytics {
     });
   }
 
-  static Future<void> onEvent({@required String eventID, String eventLabel, Map params}) async{
+  static Future<void> onEvent({required String eventID, String? eventLabel, Map? params}) async{
     return await _channel.invokeMethod('onEvent', <String, dynamic>{
       'eventID':eventID,
       'eventLabel':eventLabel,
@@ -38,7 +37,7 @@ class TalkingDataAppAnalytics {
     });
   }
 
-  static Future<void> onEventWithValue({@required String eventID, String eventLabel, Map params,double value}) async{
+  static Future<void> onEventWithValue({required String eventID, String? eventLabel, Map? params, double? value}) async{
     return await _channel.invokeMethod('onEventWithValue', <String, dynamic>{
       'eventID':eventID,
       'eventLabel':eventLabel,
@@ -60,7 +59,7 @@ class TalkingDataAppAnalytics {
     });
   }
 
-  static Future<void> onRegister({String profileID, ProfileType profileType, String name}) async{
+  static Future<void> onRegister({String? profileID, ProfileType? profileType, String? name}) async{
     return await _channel.invokeMethod('onRegister', <String, dynamic>{
       'profileID': profileID,
       'profileType': profileType.toString().split('.')[1],
@@ -68,7 +67,7 @@ class TalkingDataAppAnalytics {
     });
   }
 
-  static Future<void> onLogin({String profileID, ProfileType profileType, String name}) async{
+  static Future<void> onLogin({String? profileID, ProfileType? profileType, String? name}) async{
     return await _channel.invokeMethod('onLogin', <String, dynamic>{
       'profileID': profileID,
       'profileType': profileType.toString().split('.')[1],
@@ -76,28 +75,28 @@ class TalkingDataAppAnalytics {
     });
   }
 
-  static Future<void> onPlaceOrder({String profileID, Order order}) async{
+  static Future<void> onPlaceOrder({String? profileID, Order? order}) async{
     return await _channel.invokeMethod('onPlaceOrder', <String, dynamic>{
       'profileID': profileID,
-      'orderID': order.orderID,
-      'totalPrice': order.totalPrice,
-      'currencyType': order.currencyType,
-      'orderDetails': order._orderDetails
+      'orderID': order?.orderID,
+      'totalPrice': order?.totalPrice,
+      'currencyType': order?.currencyType,
+      'orderDetails': order?._orderDetails
     });
   }
 
-  static Future<void> onOrderPaySucc({String profileID, String payType, Order order}) async{
+  static Future<void> onOrderPaySucc({String? profileID, String? payType, Order? order}) async{
     return await _channel.invokeMethod('onOrderPaySucc', <String, dynamic>{
       'profileID': profileID,
       'payType': payType,
-      'orderID': order.orderID,
-      'totalPrice': order.totalPrice,
-      'currencyType': order.currencyType,
-      'orderDetails': order._orderDetails
+      'orderID': order?.orderID,
+      'totalPrice': order?.totalPrice,
+      'currencyType': order?.currencyType,
+      'orderDetails': order?._orderDetails
     });
   }
 
-  static Future<void> onAddItemToShoppingCart({String itemId, String category, String name, int unitPrice, int amount}) async{
+  static Future<void> onAddItemToShoppingCart({String? itemId, String? category, String? name, int? unitPrice, int? amount}) async{
     return await _channel.invokeMethod('onAddItemToShoppingCart', <String, dynamic>{
       'itemID': itemId,
       'category': category,
@@ -107,7 +106,7 @@ class TalkingDataAppAnalytics {
     });
   }
 
-  static Future<void> onViewItem({String itemId ,String category,String name,int unitPrice}) async{
+  static Future<void> onViewItem({String? itemId ,String? category, String? name, int? unitPrice}) async{
     return await _channel.invokeMethod('onViewItem', <String, dynamic>{
       'itemID': itemId,
       'category': category,
@@ -147,9 +146,9 @@ enum ProfileType{
 
 class Order{
   Order({
-    this.orderID,
-    this.totalPrice,
-    this.currencyType,
+    required this.orderID,
+    required this.totalPrice,
+    required this.currencyType,
   });
 
   final String orderID;
@@ -158,7 +157,7 @@ class Order{
 
   final String currencyType;
 
-  List _orderDetails = List();
+  List<Map> _orderDetails = [];
 
   addItem(String id, String category, String name, int unitPrice, int amount){
     Map map = Map();
@@ -176,7 +175,7 @@ class Order{
 class ShoppingCart{
   ShoppingCart();
 
-  List _shoppingCartDetails = List();
+  List<Map> _shoppingCartDetails = [];
 
   addItem(String itemID, String category, String name, int unitPrice, int amount){
     Map map = Map();
